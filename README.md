@@ -1,14 +1,14 @@
 
 ## Svelte Project
 
-Install the dependencies...
+Install the dependencies:
 
 ```bash
 cd svelte_project
 npm install
 ```
 
-...then start [Rollup](https://rollupjs.org):
+Run the project:
 
 ```bash
 npm run dev
