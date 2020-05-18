@@ -1,6 +1,6 @@
 <header>
 	<h1>
-	  <img src="/img/logo.svg">
+	  <img src="/img/logo.png">
 	</h1>
 </header>
 

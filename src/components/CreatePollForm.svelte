@@ -1,64 +1,63 @@
 <script>
-   import {createEventDispatcher} from 'svelte';
-   import Button from '../shared/Button.svelte';
-
-   let dispatch = createEventDispatcher();
-   let fields = {question: '', answerA: '', answerB: ''};
-   let errors = {question: '', answerA: '', answerB: ''};
-   let valid = false;
-
-   const submitHandler = () =>{
-      valid = true;
-
-      if(fields.question.trim().length < 5){
-         valid = false;
-         errors.question = 'Question must be at least 5 characters long';
-      } else {
-        errors.question = '';
-      }
-
-      if(fields.answerA.trim().length < 1){
-         valid = false;
-         errors.answerA = 'Answer can not be empty';
-      } else {
-        errors.answerA = '';
-      }
-
-      if(fields.answerB.trim().length < 1){
-         valid = false;
-         errors.answerB = 'Answer can not be empty';
-      } else {
-        errors.answerB = '';
-      }
-
-      if(valid){
-        let poll = {...fields, votesA: 0, votesB: 0, id: Math.random()};
-        dispatch('add', poll);
-      }
-
-
-
-   }
+  import PollStore from '../stores/pollStore.js';
+  import { createEventDispatcher } from 'svelte';
+  import Button from '../shared/Button.svelte';
+  let dispatch = createEventDispatcher();
+  let fields = { question: '', answerA: '', answerB: '' };
+  let errors = { question: '', answerA: '', answerB: '' };
+  let valid = false;
+  const submitHandler = () => {
+    valid = true;
+    // question
+    if (fields.question.trim().length < 5) {
+      valid = false;
+      errors.question = 'Question must be at least 5 chars long'
+    } else {
+      errors.question = ''
+    }
+    // answer A
+    if (fields.answerA.trim().length < 1) {
+      valid = false;
+      errors.answerA = 'Answer A cannot be empty'
+    } else {
+      errors.answerA = ''
+    }
+    // answer B
+    if (fields.answerB.trim().length < 1) {
+      valid = false;
+      errors.answerB = 'Answer B cannot be empty'
+    } else {
+      errors.answerB = ''
+    }
+    // add new poll
+    if (valid) {
+      let poll = {...fields, id: Math.random(), votesA: 0, votesB: 0};
+      // save poll to store
+      PollStore.update(currentPolls => {
+        return [poll, ...currentPolls];
+      });
+      dispatch('add');
+    }
+  }
 </script>
 
-
 <form on:submit|preventDefault={submitHandler}>
-   <div class="form-field">
+  <div class="form-field">
     <label for="question">Poll Question:</label>
-    <input type="text" id="question" bind:value={fields.qustion}>
-    <div class="errors">{errors.question}</div>
-   </div>
-   <div class="form-field">
-    <label for="answer-a">Answer A:</label>
+    <input type="text" id="question" bind:value={fields.question}>
+    <div class="error">{ errors.question }</div>
+  </div>
+  <div class="form-field">
+    <label for="answer-a">Answer A value:</label>
     <input type="text" id="answer-a" bind:value={fields.answerA}>
-    <div class="errors">{errors.answerA}</div>
-   </div>
-   <div class="form-field">
-    <label for="answer-b">Answer B:</label>
+    <div class="error">{ errors.answerA }</div>
+  </div>
+  <div class="form-field">
+    <label for="answer-b">Answer B value:</label>
     <input type="text" id="answer-b" bind:value={fields.answerB}>
-    <div class="errors">{errors.answerB}</div>
-   </div>
-   <Button type="secondary" inverse={true}>Add Poll</Button>
+    <div class="error">{ errors.answerB }</div>
+  </div>
+  <Button>Add Poll</Button>
 </form>
 
 
@@ -83,6 +82,6 @@
     .errors{
        font-size: 12px;
        font-weight: bold;
-       color: darkred;
+       color: #C03477;
     }
 </style>

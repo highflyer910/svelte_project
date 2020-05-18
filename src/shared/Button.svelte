@@ -5,8 +5,8 @@
  </script>
 
 
-<button class={type} class:flat={flat} class:inverse={inverse}>
-	<slot></slot>
+<button class:flat={flat} class:inverse={inverse} class={type} on:click>
+  <slot></slot>
 </button>
 
 
@@ -22,7 +22,7 @@
 	}
 
 	.primary{
-		background-color: #d91b42;
+		background-color: #C03477;
 		color: white;
 	}
 
